@@ -17,7 +17,7 @@ pub struct EmailHandler<'a> {
 impl<'a> EmailHandler<'a> {
     pub fn new(config: &'a EmailConfig) -> Self {
         return Self {
-            connection_url: &config.relay_host,
+            connection_url: &config.connection_url,
             from: &config.from,
             to: &config.to,
         };

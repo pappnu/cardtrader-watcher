@@ -21,7 +21,7 @@ pub struct Watchable {
 
 #[derive(Deserialize)]
 pub struct EmailConfig {
-    pub relay_host: String,
+    pub connection_url: String,
     pub from: Mailbox,
     pub to: Mailbox,
 }

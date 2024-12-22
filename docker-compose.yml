@@ -1,0 +1,7 @@
+services:
+  cardtrader-watcher:
+    build:
+      context: .
+      target: final
+    volumes:
+      - ./config.json:/config.json:ro

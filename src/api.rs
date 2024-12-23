@@ -150,6 +150,10 @@ impl ApiClient<'_> {
         }
     }
 
+    pub fn build_card_url(blueprint_id: usize) -> String {
+        return format!("https://www.cardtrader.com/cards/{blueprint_id}");
+    }
+
     fn add_base_headers(&self, builder: RequestBuilder) -> RequestBuilder {
         return builder
             .header(

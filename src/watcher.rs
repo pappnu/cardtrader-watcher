@@ -165,23 +165,24 @@ impl<'a> Watcher<'a> {
             )),
             Body::new(format!(
                 "New:      {}\n\
-                 Previous: {}",
+                 Previous: {}\n\
+                 {}",
                 Self::format_product_details(Some(new)),
                 Self::format_product_details(previous),
+                ApiClient::build_card_url(new.blueprint_id),
             )),
         );
     }
 
     fn build_not_available_anymore_email(previous: &Product) -> (MessageBuilder, Body) {
         return (
-            Message::builder().subject(format!(
-                "[0] {}",
-                Self::format_product_details(Some(previous)),
-            )),
+            Message::builder().subject(format!("[0] Unavailable - {}", previous.name_en,)),
             Body::new(format!(
                 "New:      None\n\
-                 Previous: {}",
-                Self::format_product_details(Some(previous))
+                 Previous: {}\n\
+                 {}",
+                Self::format_product_details(Some(previous)),
+                ApiClient::build_card_url(previous.blueprint_id),
             )),
         );
     }

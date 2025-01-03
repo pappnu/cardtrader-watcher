@@ -29,7 +29,7 @@ pub struct EmailConfig {
 #[derive(Deserialize)]
 pub struct AppConfig {
     pub bearer_token: String,
-    pub interval: u64,
+    pub interval: u64, // in milliseconds
     pub watchables: Vec<Watchable>,
     #[serde(default)]
     pub seller_country_blacklist: Vec<String>,

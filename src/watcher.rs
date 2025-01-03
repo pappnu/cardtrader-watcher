@@ -40,9 +40,7 @@ impl<'a> Watcher<'a> {
                     name: None,
                 })
                 .collect(),
-            api_client: ApiClient {
-                bearer_token: &config.bearer_token,
-            },
+            api_client: ApiClient::new(&config.bearer_token),
             email_handler: email_handler,
         };
     }

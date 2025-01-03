@@ -1,10 +1,12 @@
-use std::{collections::HashMap, error::Error};
+use std::{collections::HashMap, error::Error, time::Duration};
 
 use reqwest::{header::USER_AGENT, Client, RequestBuilder, Url};
 use serde::Deserialize;
 use serde_json::from_str;
 
 const PRODUCTS_ENDPOINT: &str = "https://api.cardtrader.com/api/v2/marketplace/products";
+
+const DEFAULT_REQUEST_TIMEOUT: u64 = 6;
 
 #[derive(Deserialize, Debug)]
 pub struct Price {
@@ -92,9 +94,20 @@ pub struct ListMarketplaceProductsOptions<'a> {
 
 pub struct ApiClient<'a> {
     pub bearer_token: &'a String,
+    client: Client,
 }
 
-impl ApiClient<'_> {
+impl<'a> ApiClient<'a> {
+    pub fn new(bearer_token: &'a String) -> Self {
+        return Self {
+            bearer_token: bearer_token,
+            client: Client::builder()
+                .timeout(Duration::from_secs(DEFAULT_REQUEST_TIMEOUT))
+                .build()
+                .unwrap(),
+        };
+    }
+
     pub async fn list_marketplace_products(
         &self,
         options: ListMarketplaceProductsOptions<'_>,
@@ -134,7 +147,7 @@ impl ApiClient<'_> {
             None => (),
         }
 
-        let response = self.add_base_headers(Client::new().get(url)).send().await?;
+        let response = self.add_base_headers(self.client.get(url)).send().await?;
 
         let text = response.text().await?;
         let products: serde_json::Result<HashMap<String, Vec<Product>>> = from_str(text.as_str());

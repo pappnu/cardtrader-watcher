@@ -140,11 +140,12 @@ impl<'a> Watcher<'a> {
     fn format_product_details(product: Option<&Product>) -> String {
         return match product {
             Some(value) => format!(
-                "{} {} - {} - {}",
+                "{} {} - {} - {} - {}",
                 cents_to_basic_unit(value.price.cents),
                 value.price.currency,
                 value.user.country_code,
-                value.name_en
+                value.name_en,
+                value.expansion.name_en,
             ),
             None => "None".to_string(),
         };
